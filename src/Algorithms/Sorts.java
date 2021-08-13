@@ -130,6 +130,11 @@ public class Sorts {
     }
 
     public static void heapSort(int[] nums) {
-        // 
+        // First a max heap is built.
+        // Second it loops: the biggest element is popped off the heap and swapped with
+        // the last element in the heap, and the biggest element is now excluded. The
+        // remaining numbers are heapified, and the process repeats until all numbers
+        // are sorted.
+
     }
 }
