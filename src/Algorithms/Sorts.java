@@ -35,6 +35,31 @@ public class Sorts {
         }
     }
 
+    public static void bubbleSortII(int[] nums) {
+        // If there is no swap in a pass, all the elements are in the correct position.
+        // Allows for O(N) time on an already sorted list.
+        int end = nums.length - 1;
+        int temp;
+        boolean hasSwapped = false;
+        // 1: End is a valid index that points to the place where the next biggest element goes.
+        while (end > 0) {
+            // 2: Swaps elements if current is bigger than next.
+            hasSwapped = false;
+            for (int i = 0; i < end; i++) {
+                if (nums[i] > nums[i + 1]) {
+                    temp = nums[i];
+                    nums[i] = nums[i + 1];
+                    nums[i + 1] = temp;
+                    hasSwapped = true;
+                }
+            }
+            if (hasSwapped == false) {
+                break;
+            }
+            end -= 1;
+        }
+    }
+
     public static void selectionSort(int[] nums) {
         int min;
         int temp;
