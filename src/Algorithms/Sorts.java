@@ -135,6 +135,15 @@ public class Sorts {
         // the last element in the heap, and the biggest element is now excluded. The
         // remaining numbers are heapified, and the process repeats until all numbers
         // are sorted.
-
+        int range = nums.length;
+        int temp;
+        buildMaxHeap(nums);
+        while (range > 0) {
+            temp = nums[range - 1];
+            nums[range - 1] = nums[0];
+            nums[0] = temp;
+            range -= 1;
+            heapify(nums, 0, range);
+        }
     }
 }
