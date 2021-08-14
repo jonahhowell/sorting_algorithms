@@ -153,7 +153,7 @@ public class Sorts {
     }
 
     public static void quickSort(int[] nums) {
-        quickSort_R(nums, 0, nums.length);
+        quickSort_R(nums, 0, nums.length - 1);
     }
 
     public static void quickSort_R(int[] nums, int left, int right) {
@@ -166,9 +166,36 @@ public class Sorts {
     public static int partition(int[] nums, int left, int right) {
         /*
          Returns index of pivot element
-         All elements lower than the pivot are on the left
-         All elements greater than the pivot are on the right
+         All elements lower than the pivot are moved to the left
+         All elements greater than the pivot are moved to the right
+
+         Pivot being the rightmost element is just for simplicity,
+         but this leaves the door open to select a different pivot if
+         I decide to change it later.
         */
-        return -1;
+        int pivot = right;
+        int i = left;
+        int j = right - 1;
+        int temp;
+        while (i < j) {
+            if (nums[i] < nums[pivot]) {
+                i++;
+            }
+            else if (nums[j] > nums[pivot]) {
+                j--;
+            }
+            else if (nums[i] > nums[j]){
+                temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+            }
+        }
+        if (nums[i] > nums[pivot]) {
+            temp = nums[i];
+            nums[i] = nums[pivot];
+            nums[pivot] = temp;
+            pivot = i;
+        }
+        return pivot;
     }
 }
