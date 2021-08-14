@@ -83,7 +83,7 @@ public class Sorts {
         }
     }
 
-    public static void heapify(int[] nums, int index, int range) {
+    private static void heapify(int[] nums, int index, int range) {
         // Brings heap order to int current.
         // Will only consider items in range where range = nums.length is all items.
         int current = index;
@@ -119,7 +119,7 @@ public class Sorts {
         }
     }
 
-    public static void buildMaxHeap(int [] nums) {
+    private static void buildMaxHeap(int [] nums) {
         // Builds a max heap out of an unsorted array. Used to prime an array for heap sort.
         int current = (nums.length - 2) / 2;
         if (current == -1) return;
@@ -130,11 +130,16 @@ public class Sorts {
     }
 
     public static void heapSort(int[] nums) {
-        // First a max heap is built.
-        // Second it loops: the biggest element is popped off the heap and swapped with
-        // the last element in the heap, and the biggest element is now excluded. The
-        // remaining numbers are heapified, and the process repeats until all numbers
-        // are sorted.
+        /*
+         Always runs in O(N * log(N))
+         No extra space needed, however it's not stable due to heap structure.
+         First a max heap is built.
+         Second it loops: the biggest element is popped off the heap and swapped with
+         the last element in the heap, and the biggest element is now excluded. The
+         remaining numbers are heapified, and the process repeats until all numbers
+         are sorted.
+        */
+
         int range = nums.length;
         int temp;
         buildMaxHeap(nums);
