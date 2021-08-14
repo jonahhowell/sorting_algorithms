@@ -151,4 +151,24 @@ public class Sorts {
             heapify(nums, 0, range);
         }
     }
+
+    public static void quickSort(int[] nums) {
+        quickSort_R(nums, 0, nums.length);
+    }
+
+    public static void quickSort_R(int[] nums, int left, int right) {
+        if (left >= right) return;
+        int pivot = partition(nums, left, right);
+        quickSort_R(nums, left, pivot - 1);
+        quickSort_R(nums, pivot + 1, right);
+    }
+
+    public static int partition(int[] nums, int left, int right) {
+        /*
+         Returns index of pivot element
+         All elements lower than the pivot are on the left
+         All elements greater than the pivot are on the right
+        */
+        return -1;
+    }
 }
