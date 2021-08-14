@@ -153,6 +153,14 @@ public class Sorts {
     }
 
     public static void quickSort(int[] nums) {
+        /*
+        Recursive sorting method that puts pivot element in correct
+        position with all elements on left < pivot and all elements
+        on right > pivot.
+
+        It repeats on left and right sides and recurses until
+        the entire array is sorted.
+        */
         quickSort_R(nums, 0, nums.length - 1);
     }
 
@@ -178,13 +186,13 @@ public class Sorts {
         int j = right - 1;
         int temp;
         while (i < j) {
-            if (nums[i] < nums[pivot]) {
+            if (nums[i] <= nums[pivot]) {
                 i++;
             }
             else if (nums[j] > nums[pivot]) {
                 j--;
             }
-            else if (nums[i] > nums[j]){
+            else if (nums[i] > nums[j]) {
                 temp = nums[i];
                 nums[i] = nums[j];
                 nums[j] = temp;
