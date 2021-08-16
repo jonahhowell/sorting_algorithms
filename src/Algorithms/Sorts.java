@@ -206,4 +206,53 @@ public class Sorts {
         }
         return pivot;
     }
+
+    public static void mergeSort(int[] nums) {
+        if (nums.length <= 1) return;
+        int[] sortedVals = mergeSort_R(nums, 0, nums.length - 1);
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = sortedVals[i];
+        }
+    }
+
+    public static int[] mergeSort_R(int[] nums, int left, int right) {
+        if (left == right) {
+            return new int[] {nums[left]};
+        }
+        int mid = left + (right - left) / 2;
+        int[] nums1 = mergeSort_R(nums, left, mid);
+        int[] nums2 = mergeSort_R(nums, mid + 1, right);
+        int[] combinedNums = merge(nums1, nums2);
+        return combinedNums;
+    }
+
+    public static int[] merge(int[] nums1, int[] nums2) {
+        int[] combinedNums = new int[nums1.length + nums2.length];
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        while ((i < nums1.length) && (j < nums2.length)) {
+            if (nums2[j] < nums1[i]) {
+                combinedNums[k] = nums2[j];
+                k++;
+                j++;
+            }
+            else {
+                combinedNums[k] = nums1[i];
+                k++;
+                i++;
+            }
+        }
+        while (i < nums1.length) {
+            combinedNums[k] = nums1[i];
+            k++;
+            i++;
+        }
+        while (j < nums2.length) {
+            combinedNums[k] = nums2[j];
+            k++;
+            j++;
+        }
+        return combinedNums;
+    }
 }
