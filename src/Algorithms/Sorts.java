@@ -3,16 +3,16 @@ package Algorithms;
 public class Sorts {
 
     public static void insertionSort(int[] nums) {
-        // Runs in O(N^2) on average
-        // O(N) best case on sorted list implementation is more emergent here than
-        // in bubble sort.
+        /*
+         Sorted partition on left, unsorted partition on right. Swaps the furthest element until
+         it is sorted. The first element is sorted by default.
 
-        // 1: For loop iterates to new, unsorted element; prior elements are sorted.
-        for (int i = 0; i < nums.length; i++) {
-        // 2: int j serves as a pointer element for the unsorted element.
+         Runs in O(N^2) on average
+         O(N) best case on sorted list implementation is more emergent here than
+         in bubble sort.
+        */
+        for (int i = 1; i < nums.length; i++) {
             int j = i;
-        // 3: While loop swaps nums[j] with nums[j - 1]. Terminates either when
-        //    j is not greater than zero (first element) or the previous element is smaller.
             while ((j > 0) && (nums[j] < nums[j-1])) {
                 int temp = nums[j];
                 nums[j] = nums[j - 1];
@@ -23,14 +23,18 @@ public class Sorts {
     }
 
     public static void bubbleSort(int[] nums) {
-        // Runs in O(N^2) on average.
+        /*
+         Sorted partition on right, unsorted on left.
+         Works by passing through array, and if the adjacent element is smaller, swap.
+         By one pass biggest element will be on end.
+         Repeats until list is sorted.
 
-
+         Runs in O(N^2) on average.
+         O(N) best case requires tracker to see if elements were swapped on a pass.
+        */
         int end = nums.length - 1;
         int temp;
-        // 1: End is a valid index that points to the place where the next biggest element goes.
         while (end > 0) {
-        // 2: Swaps elements if current is bigger than next.
             for (int i = 0; i < end; i++) {
                 if (nums[i] > nums[i + 1]) {
                     temp = nums[i];
@@ -48,9 +52,7 @@ public class Sorts {
         int end = nums.length - 1;
         int temp;
         boolean hasSwapped;
-        // 1: End is a valid index that points to the place where the next biggest element goes.
         while (end > 0) {
-            // 2: Swaps elements if current is bigger than next.
             hasSwapped = false;
             for (int i = 0; i < end; i++) {
                 if (nums[i] > nums[i + 1]) {
@@ -60,7 +62,7 @@ public class Sorts {
                     hasSwapped = true;
                 }
             }
-            if (hasSwapped == false) {
+            if (!hasSwapped) {
                 break;
             }
             end -= 1;
@@ -68,6 +70,14 @@ public class Sorts {
     }
 
     public static void selectionSort(int[] nums) {
+        /*
+         Sorted partition on left, unsorted on right.
+         Works by finding smallest element in array. Once found, it's swapped with the first
+         element of the unsorted partition. The element is now sorted. This repeats until
+         the whole array is sorted.
+
+         This algorithm is always O(N^2) runtime.
+        */
         int min;
         int temp;
         for (int i = 0; i < nums.length - 1; i++) {
@@ -84,8 +94,15 @@ public class Sorts {
     }
 
     private static void heapify(int[] nums, int index, int range) {
-        // Brings heap order to int current.
-        // Will only consider items in range where range = nums.length is all items.
+        /*
+         Brings heap order to int current.
+         Will only consider items in range
+         put in nums.length to consider all of the array as a binary heap.
+         The index argument is for where to heapify.
+
+         This method is private because it's only meant to work in the very specific context
+         of buildMaxHeap and heapSort. Will not be used for other functionality.
+        */
         int current = index;
         int swap;
         int temp;
@@ -131,13 +148,14 @@ public class Sorts {
 
     public static void heapSort(int[] nums) {
         /*
-         Always runs in O(N * log(N))
          No extra space needed, however it's not stable due to heap structure.
          First a max heap is built.
          Second it loops: the biggest element is popped off the heap and swapped with
          the last element in the heap, and the biggest element is now excluded. The
          remaining numbers are heapified, and the process repeats until all numbers
          are sorted.
+
+         Always runs in O(N*logN).
         */
 
         int range = nums.length;
@@ -160,18 +178,22 @@ public class Sorts {
 
         It repeats on left and right sides and recurses until
         the entire array is sorted.
+
+        Average run for quick sort is O(N * logN). For this one it's likely to reach
+        O(N^2) worst case performance since the pivot is always the rightmost element.
+        If a sorted list is passed as an argument it wouldn't divide evenly.
         */
         quickSort_R(nums, 0, nums.length - 1);
     }
 
-    public static void quickSort_R(int[] nums, int left, int right) {
+    private static void quickSort_R(int[] nums, int left, int right) {
         if (left >= right) return;
         int pivot = partition(nums, left, right);
         quickSort_R(nums, left, pivot - 1);
         quickSort_R(nums, pivot + 1, right);
     }
 
-    public static int partition(int[] nums, int left, int right) {
+    private static int partition(int[] nums, int left, int right) {
         /*
          Returns index of pivot element
          All elements lower than the pivot are moved to the left
@@ -208,14 +230,19 @@ public class Sorts {
     }
 
     public static void mergeSort(int[] nums) {
+        /*
+         Splits up array into sorted arrays of size 1, then merges them into a final
+         array with the contents of the original, then overwrites the original.
+
+         Always O(N * logN). Uses more memory than heap sort, but this is a stable algorithm.
+         To my knowledge, this is the general algorithm recommended for big unsorted datasets.
+        */
         if (nums.length <= 1) return;
         int[] sortedVals = mergeSort_R(nums, 0, nums.length - 1);
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] = sortedVals[i];
-        }
+        System.arraycopy(sortedVals, 0, nums, 0, nums.length);
     }
 
-    public static int[] mergeSort_R(int[] nums, int left, int right) {
+    private static int[] mergeSort_R(int[] nums, int left, int right) {
         if (left == right) {
             return new int[] {nums[left]};
         }
@@ -226,7 +253,9 @@ public class Sorts {
         return combinedNums;
     }
 
-    public static int[] merge(int[] nums1, int[] nums2) {
+    private static int[] merge(int[] nums1, int[] nums2) {
+        // Makes a new list and returns sorted contents of nums1 and nums2.
+        // Could be used independently, but this implementation is just for merge sort.
         int[] combinedNums = new int[nums1.length + nums2.length];
         int i = 0;
         int j = 0;
